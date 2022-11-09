@@ -26,89 +26,90 @@ function createForm() {
     form.appendChild(button);
 }
 
-createForm();
+// createForm();
+updateClock();
 
-function round() {
-    let radius = parseFloat(document.forms.form1.radius.value);
-    let centerX = radius;
-    let centerY = radius;
+function clockCreate(hoursAngle,minAngle,secAngle) {
+
+    // document.getElementById('clock').clearRect(0, 0, document.getElementById('clock').width, document.getElementById('clock').height);
     
-    document.body.removeChild(form1);
+    // let clock = document.getElementById('clock');
+    // console.log(clock);
+    // clock.clearRect(0, 0, clock.width, clock.height);
+    // console.log(clock.width, clock.height);
     
-    let rSvg = document.createElementNS("http://www.w3.org/2000/svg","svg");
-    document.body.appendChild(rSvg);
-    rSvg.setAttribute('width', radius*2.1 + 'px');
-    rSvg.setAttribute('height', radius*2.1 + 'px');
-    let round = document.createElementNS("http://www.w3.org/2000/svg","circle");
-    rSvg.appendChild(round);
-    round.id='round';
-    round.setAttribute('cx', radius);
-    round.setAttribute('cy', radius);
-    round.setAttribute('r', radius);
-    round.setAttribute('stroke', 'red');
-    round.setAttribute('fill', 'rgb(68, 245, 245)');
+    let radius = 100;
     let hoursDistance = radius*0.8;
+    
+    let centerX = radius*1.1;
+    let centerY = radius*1.1;
+    let canvasClock = document.createElement('canvas');
+    document.body.appendChild(canvasClock);
+    canvasClock.id = 'clock';
+    canvasClock.width = 300;
+    canvasClock.height = 300;
 
+    let clock = canvasClock.getContext('2d');
+    
+    clock.clearRect(0, 0, canvasClock.width, canvasClock.height);
 
+    clock.beginPath();
+    clock.strokeStyle = 'red';
+    clock.arc(centerX, centerY, radius, 0, 2*Math.PI);
+    clock.fillStyle = 'rgb(68, 245, 245)';
+    clock.fill();
+    // clock.lineWidth = 1;
+    clock.stroke();
+    
+    
     for (let h = 1; h <= 12; h++) {    //12 hours
-        let numRound = document.createElementNS("http://www.w3.org/2000/svg","circle");
+        clock.beginPath();
+        
         const hourAngle = Math.PI*2/12*h;
         const hourX = centerX+hoursDistance*Math.sin(hourAngle);
         const hourY = centerY-hoursDistance*Math.cos(hourAngle);
-        numRound.setAttribute('cx', hourX);
-        numRound.setAttribute('cy', hourY);
-        numRound.setAttribute('r', radius*0.1);
-        numRound.setAttribute('stroke', 'red');
-        numRound.setAttribute('fill', 'rgb(218, 245, 142)');
-        rSvg.appendChild(numRound);
-        let textH = document.createElementNS("http://www.w3.org/2000/svg","text");
-        rSvg.appendChild(textH);
-        textH.innerHTML = h;
-        textH.setAttribute('font-size', 15*radius/100);//радиус влияет на шрифт
-        textH.setAttribute("dominant-baseline", "central");
-        textH.setAttribute('text-anchor', 'middle');
-        textH.setAttribute('x',hourX);
-        textH.setAttribute('y',hourY);
-    }
-            let angleH = document.createElementNS("http://www.w3.org/2000/svg","line");
-            rSvg.appendChild(angleH);
-            angleH.setAttribute('x1', radius);
-            angleH.setAttribute('y1', radius+radius*0.1);//смещение от центра
-            angleH.setAttribute('x2', radius);
-            angleH.setAttribute('y2', radius-radius*0.5);//длина
-            angleH.setAttribute('stroke', 'black');
-            angleH.setAttribute('stroke-width', 15*radius/100);//толщина
-            angleH.setAttribute('stroke-linecap','round');//закругление
-            angleH.id='angleHours';
-            
-            let angleM = document.createElementNS("http://www.w3.org/2000/svg","line");
-            rSvg.appendChild(angleM);
-            angleM.setAttribute('x1', radius);
-            angleM.setAttribute('y1', radius+radius*0.1);
-            angleM.setAttribute('x2', radius);
-            angleM.setAttribute('y2', radius-radius*0.7);
-            angleM.setAttribute('stroke', 'black');
-            angleM.setAttribute('stroke-width', 7*radius/100);
-            angleM.setAttribute('stroke-linecap','round');
-            angleM.id='angleMin';
-            
-            let angleS = document.createElementNS("http://www.w3.org/2000/svg","line");
-            rSvg.appendChild(angleS);
-            angleS.setAttribute('x1', radius);
-            angleS.setAttribute('y1', radius+radius*0.1);
-            angleS.setAttribute('x2', radius);
-            angleS.setAttribute('y2', radius-radius*0.9);
-            angleS.setAttribute('stroke', 'black');
-            angleS.setAttribute('stroke-width', 2*radius/100);
-            angleS.setAttribute('stroke-linecap','round');
-            angleS.id='angleSec';
+        
+        clock.arc(hourX, hourY, radius*0.1, 0, Math.PI*2);
+        clock.strokeStyle = 'white';
+        clock.fillStyle = 'yellow';
+        clock.fill();
+        clock.lineWidth = 1;
+        clock.stroke();
+        
+        clock.beginPath();
+        clock.textAlign="center";
+        clock.textBaseline="middle";
+        clock.strokeStyle = 'black';
+        clock.strokeText(h, hourX, hourY);
+    }    
+    // document.body.removeChild(form1);
     
-        updateClock();
+            clock.beginPath();
+            clock.moveTo(centerX, centerY);
+            clock.lineTo(centerX+0.4*centerX*Math.sin(hoursAngle), centerY-0.4*centerY*Math.cos(hoursAngle));
+            clock.lineWidth = 15;
+            clock.lineCap = 'round';
+            clock.stroke();
+            
+            clock.beginPath();
+            clock.moveTo(centerX, centerY);
+            clock.lineTo(centerX+0.6*centerX*Math.sin(minAngle), centerY-0.6*centerY*Math.cos(minAngle));
+            clock.lineWidth = 7;
+            clock.strokeStyle = 'red';
+            clock.lineCap = 'round';
+            clock.stroke();
+            
+            clock.beginPath();
+            clock.moveTo(centerX, centerY);
+            clock.lineTo(centerX+0.8*centerX*Math.sin(secAngle), centerY-0.8*centerY*Math.cos(secAngle));
+            clock.lineWidth = 3;
+            clock.lineCap = 'round';
+            clock.strokeStyle = 'white';
+            clock.stroke();
     }
     
     
     function updateClock() {
-        let radius=document.getElementById('round').getBoundingClientRect().width/2;//не смог найти форму и у неё достать радиус
         let currTime = new Date();
         
         const hours = currTime.getHours()%12;
@@ -120,10 +121,9 @@ function round() {
         const minAngle = Math.PI*2/60*minutes;
         const hoursAngle = Math.PI*2/12*(hours+minutes/60);
         
-        document.getElementById("angleHours").setAttribute('transform','rotate('+hoursAngle*180/Math.PI+' '+radius+' '+radius+')');
-        document.getElementById("angleMin").setAttribute('transform','rotate('+minAngle*180/Math.PI+' '+radius+' '+radius+')');
-        document.getElementById("angleSec").setAttribute('transform','rotate('+secAngle*180/Math.PI+' '+radius+' '+radius+')');
         console.log(hours+':'+minutes+':'+seconds+'sec');
-
-        setTimeout(updateClock,1000-msec);
+        
+        clockCreate(hoursAngle,minAngle,secAngle);
+        
+        // setTimeout(updateClock,1000-msec);
 }
