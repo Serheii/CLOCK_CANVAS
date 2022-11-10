@@ -30,13 +30,6 @@ function createForm() {
 updateClock();
 
 function clockCreate(hoursAngle,minAngle,secAngle) {
-
-    // document.getElementById('clock').clearRect(0, 0, document.getElementById('clock').width, document.getElementById('clock').height);
-    
-    // let clock = document.getElementById('clock');
-    // console.log(clock);
-    // clock.clearRect(0, 0, clock.width, clock.height);
-    // console.log(clock.width, clock.height);
     
     let radius = 100;
     let hoursDistance = radius*0.8;
@@ -50,9 +43,11 @@ function clockCreate(hoursAngle,minAngle,secAngle) {
     canvasClock.height = 300;
 
     let clock = canvasClock.getContext('2d');
-    
-    clock.clearRect(0, 0, canvasClock.width, canvasClock.height);
 
+    clock.clearRect(0, 0, clock.width, clock.height);
+    clock.fillStyle = '#ffffff';
+    clock.fillRect(0,0,clock.width,clock.height);
+    
     clock.beginPath();
     clock.strokeStyle = 'red';
     clock.arc(centerX, centerY, radius, 0, 2*Math.PI);
@@ -85,14 +80,14 @@ function clockCreate(hoursAngle,minAngle,secAngle) {
     // document.body.removeChild(form1);
     
             clock.beginPath();
-            clock.moveTo(centerX, centerY);
+            clock.moveTo(centerX-0.1*centerX*Math.sin(hoursAngle), centerY+0.1*centerY*Math.cos(hoursAngle));
             clock.lineTo(centerX+0.4*centerX*Math.sin(hoursAngle), centerY-0.4*centerY*Math.cos(hoursAngle));
             clock.lineWidth = 15;
             clock.lineCap = 'round';
             clock.stroke();
             
             clock.beginPath();
-            clock.moveTo(centerX, centerY);
+            clock.moveTo(centerX-0.1*centerX*Math.sin(minAngle), centerY+0.1*centerY*Math.cos(minAngle));
             clock.lineTo(centerX+0.6*centerX*Math.sin(minAngle), centerY-0.6*centerY*Math.cos(minAngle));
             clock.lineWidth = 7;
             clock.strokeStyle = 'red';
@@ -100,8 +95,8 @@ function clockCreate(hoursAngle,minAngle,secAngle) {
             clock.stroke();
             
             clock.beginPath();
-            clock.moveTo(centerX, centerY);
-            clock.lineTo(centerX+0.8*centerX*Math.sin(secAngle), centerY-0.8*centerY*Math.cos(secAngle));
+            clock.moveTo(centerX-0.1*centerX*Math.sin(secAngle), centerY+0.1*centerY*Math.cos(secAngle));
+            clock.lineTo(centerX+0.7*centerX*Math.sin(secAngle), centerY-0.7*centerY*Math.cos(secAngle));
             clock.lineWidth = 3;
             clock.lineCap = 'round';
             clock.strokeStyle = 'white';
@@ -125,5 +120,12 @@ function clockCreate(hoursAngle,minAngle,secAngle) {
         
         clockCreate(hoursAngle,minAngle,secAngle);
         
-        // setTimeout(updateClock,1000-msec);
+        let clock = document.getElementById('clock');
+
+        // clock.clearRect(0, 0, clock.width, clock.height);
+        // clock.beginPath();
+        // clock.fillStyle = '#ffffff';
+        // clock.fillRect(0,0,clock.width,clock.height);
+        
+        setTimeout(updateClock,1000-msec);
 }
